@@ -1,0 +1,830 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Petje Af — Tijdloze caps, door studenten voor studenten | Pre-order</title>
+<meta name="description" content="Petje Af is een studentenbedrijf uit Groningen. Vintage en minimalistische caps in donkerblauw, beige en zwart — door studenten, voor studenten. Pre-order jouw cap." />
+<meta property="og:title" content="Petje Af — Een pet voor jouw tijd" />
+<meta property="og:description" content="Vintage caps in donkerblauw, beige en zwart. Door studenten, voor studenten. Eerlijke kwaliteit, eerlijke prijs. Pre-order via petjeaf.nl." />
+<meta property="og:type" content="website" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  /* =========================================================
+     PETJE AF — single-file site
+     Pas configuratie aan onderin in <script id="config">
+     ========================================================= */
+  :root{
+    /* Kleurenpalet ondernemingsplan: donkerblauw (100%), beige (88%), zwart (71%) */
+    --bg:#f5ede0;          /* beige achtergrond */
+    --bg-2:#ebe1ce;        /* iets dieper beige */
+    --cream:#faf3e6;       /* off-white card */
+    --ink:#0f1830;         /* bijna zwart, met blauwe ondertoon */
+    --ink-2:#3a4566;       /* secundaire tekst */
+    --accent:#1a2954;      /* donkerblauw — primaire accent */
+    --accent-2:#2c3f7a;    /* iets lichter donkerblauw */
+    --gold:#c9a96a;        /* subtiel goud accent */
+    --line:#d2c4a8;        /* beige lijn */
+    --ok:#2e7d32;
+    --shadow: 0 12px 40px rgba(26,41,84,.14);
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0}
+  body{
+    font-family:'Inter',system-ui,-apple-system,Segoe UI,Roboto,sans-serif;
+    color:var(--ink);
+    background:var(--bg);
+    line-height:1.55;
+    -webkit-font-smoothing:antialiased;
+  }
+  img{max-width:100%;display:block}
+  a{color:var(--accent);text-decoration:none}
+  a:hover{text-decoration:underline}
+  h1,h2,h3{font-family:'Bebas Neue',Impact,sans-serif;letter-spacing:.02em;color:var(--ink);margin:0 0 .4em}
+  h1{font-size:clamp(2.5rem,6vw,5rem);line-height:1}
+  h2{font-size:clamp(1.9rem,4vw,3rem);line-height:1.05}
+  h3{font-size:1.4rem}
+  p{margin:0 0 1em}
+  .container{max-width:1180px;margin:0 auto;padding:0 1.25rem}
+
+  /* ---------- NAV ---------- */
+  nav.top{
+    position:sticky;top:0;z-index:50;
+    backdrop-filter:saturate(140%) blur(10px);
+    background:rgba(245,237,224,.85);
+    border-bottom:1px solid var(--line);
+  }
+  nav.top .row{display:flex;align-items:center;justify-content:space-between;height:64px}
+  .brand{display:flex;align-items:center;gap:.6rem;font-weight:800;letter-spacing:.04em;text-transform:uppercase;color:var(--ink)}
+  .brand-mark{
+    width:36px;height:36px;border-radius:50%;
+    background:var(--accent);color:var(--cream);
+    display:grid;place-items:center;font-family:'Bebas Neue',Impact,sans-serif;font-size:1.2rem;
+  }
+  nav .links{display:flex;gap:1.4rem;font-size:.95rem;font-weight:500}
+  nav .links a{color:var(--ink-2)}
+  nav .cta{background:var(--accent);color:var(--cream);padding:.55rem 1rem;border-radius:999px;font-weight:600}
+  nav .cta:hover{background:var(--accent-2);text-decoration:none}
+  @media (max-width:720px){ nav .links{display:none} }
+
+  /* ---------- HERO ---------- */
+  .hero{
+    position:relative;
+    padding:4.5rem 0 3rem;
+    background:
+      radial-gradient(1200px 600px at 80% -10%, #f0e1c1 0%, transparent 60%),
+      radial-gradient(900px 500px at -10% 110%, #ecd9b3 0%, transparent 60%),
+      var(--bg);
+    overflow:hidden;
+  }
+  .hero-grid{display:grid;grid-template-columns:1.1fr 1fr;gap:3rem;align-items:center}
+  @media (max-width:900px){ .hero-grid{grid-template-columns:1fr;gap:2rem} }
+  .badge{
+    display:inline-flex;align-items:center;gap:.5rem;
+    background:var(--cream);border:1px solid var(--line);
+    padding:.4rem .8rem;border-radius:999px;font-size:.8rem;
+    font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);
+    box-shadow:0 2px 8px rgba(0,0,0,.04);
+  }
+  .badge .dot{width:8px;height:8px;border-radius:50%;background:var(--accent);animation:pulse 2s ease-in-out infinite}
+  @keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+  .hero h1 strong{color:var(--accent)}
+  .hero p.lead{font-size:1.15rem;color:var(--ink-2);max-width:48ch}
+  .hero-cta{display:flex;flex-wrap:wrap;gap:.7rem;margin-top:1.4rem}
+  .btn{
+    display:inline-flex;align-items:center;gap:.5rem;
+    padding:.85rem 1.25rem;border-radius:999px;
+    font-weight:700;border:none;cursor:pointer;
+    transition:transform .15s ease, box-shadow .2s ease;
+    font-size:1rem;
+  }
+  .btn-primary{background:var(--accent);color:var(--cream);box-shadow:0 8px 24px rgba(122,63,23,.3)}
+  .btn-primary:hover{transform:translateY(-1px);background:var(--accent-2);text-decoration:none}
+  .btn-ghost{background:transparent;color:var(--accent);border:2px solid var(--accent)}
+  .btn-ghost:hover{background:var(--accent);color:var(--cream);text-decoration:none}
+  .meta-row{display:flex;flex-wrap:wrap;gap:1.2rem;margin-top:1.8rem;color:var(--ink-2);font-size:.92rem}
+  .meta-row span{display:inline-flex;align-items:center;gap:.4rem}
+  .check{width:18px;height:18px;border-radius:50%;background:var(--accent);color:var(--cream);display:inline-grid;place-items:center;font-size:.7rem}
+
+  /* HERO image */
+  .hero-img{
+    position:relative;border-radius:24px;overflow:hidden;
+    background:#e9d8b9;aspect-ratio:4/3;
+    box-shadow:var(--shadow);
+  }
+  .hero-img img{width:100%;height:100%;object-fit:cover}
+  .hero-img .placeholder{
+    position:absolute;inset:0;display:grid;place-items:center;color:var(--accent);text-align:center;padding:2rem;font-weight:600;
+  }
+  .price-tag{
+    position:absolute;top:14px;right:14px;
+    background:var(--ink);color:var(--cream);
+    padding:.6rem 1rem;border-radius:999px;font-weight:800;
+    font-family:'Bebas Neue',Impact,sans-serif;font-size:1.3rem;letter-spacing:.05em;
+  }
+
+  /* ---------- SECTIONS ---------- */
+  section{padding:5rem 0;border-top:1px solid var(--line)}
+  .eyebrow{
+    color:var(--accent);font-weight:700;letter-spacing:.18em;text-transform:uppercase;
+    font-size:.8rem;margin-bottom:.6rem;display:block;
+  }
+  .section-head{max-width:60ch;margin-bottom:2.5rem}
+  .section-head p{color:var(--ink-2);font-size:1.08rem}
+
+  /* ---------- FEATURES (sales/marketing) ---------- */
+  .features{display:grid;grid-template-columns:repeat(3,1fr);gap:1.2rem}
+  @media (max-width:820px){ .features{grid-template-columns:1fr} }
+  .feature{
+    background:var(--cream);border:1px solid var(--line);border-radius:18px;
+    padding:1.6rem;display:flex;flex-direction:column;gap:.6rem;
+    transition:transform .15s ease, box-shadow .2s ease;
+  }
+  .feature:hover{transform:translateY(-3px);box-shadow:var(--shadow)}
+  .feature .icon{
+    width:44px;height:44px;border-radius:12px;background:var(--accent);color:var(--cream);
+    display:grid;place-items:center;font-size:1.4rem;
+  }
+  .feature h3{margin:.2rem 0 .1rem}
+  .feature p{margin:0;color:var(--ink-2);font-size:.97rem}
+
+  /* ---------- STORY ---------- */
+  .story{background:linear-gradient(180deg,var(--bg) 0%,var(--bg-2) 100%)}
+  .story-grid{display:grid;grid-template-columns:1fr 1fr;gap:2.5rem;align-items:center}
+  @media (max-width:820px){ .story-grid{grid-template-columns:1fr} }
+  .story-card{
+    background:var(--cream);border:1px solid var(--line);border-radius:24px;padding:2rem;
+    box-shadow:var(--shadow);
+  }
+  .stat-row{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-top:1.5rem}
+  .stat{text-align:center}
+  .stat .n{font-family:'Bebas Neue',Impact,sans-serif;font-size:2.2rem;color:var(--accent);line-height:1}
+  .stat .l{font-size:.82rem;color:var(--ink-2);text-transform:uppercase;letter-spacing:.08em}
+
+  /* ---------- PRODUCT / PRE-ORDER ---------- */
+  .product{background:var(--bg-2)}
+  .product-grid{display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:start}
+  @media (max-width:900px){ .product-grid{grid-template-columns:1fr} }
+  .gallery{display:grid;grid-template-columns:1fr 1fr;gap:.6rem}
+  .gallery .tile{
+    aspect-ratio:1/1;border-radius:14px;background:#e9d8b9;overflow:hidden;
+    box-shadow:0 4px 14px rgba(0,0,0,.06);
+    display:grid;place-items:center;color:var(--accent);font-weight:600;text-align:center;padding:1rem;
+  }
+  .gallery .tile.big{grid-column:1/-1;aspect-ratio:16/10}
+  .gallery .tile img{width:100%;height:100%;object-fit:cover}
+
+  .order-card{
+    background:var(--cream);border:1px solid var(--line);border-radius:24px;padding:1.8rem;
+    box-shadow:var(--shadow);position:sticky;top:90px;
+  }
+  .order-card .preorder-tag{
+    display:inline-block;background:var(--gold);color:var(--ink);
+    padding:.25rem .7rem;border-radius:999px;font-size:.75rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;
+  }
+  .price{font-family:'Bebas Neue',Impact,sans-serif;font-size:3rem;color:var(--ink);line-height:1;margin:.6rem 0 .4rem}
+  .price small{font-size:1rem;color:var(--ink-2);font-family:'Inter',sans-serif;font-weight:500}
+  .form-row{display:grid;gap:.8rem;margin-top:1rem}
+  .form-row label{font-size:.85rem;font-weight:600;color:var(--ink-2)}
+  .form-row input, .form-row select, .form-row textarea{
+    width:100%;padding:.75rem .9rem;border:1.5px solid var(--line);
+    border-radius:12px;font-size:1rem;background:var(--cream);color:var(--ink);
+    font-family:inherit;transition:border-color .15s ease, box-shadow .15s ease;
+  }
+  .form-row input:focus, .form-row select:focus, .form-row textarea:focus{
+    outline:none;border-color:var(--accent);box-shadow:0 0 0 3px rgba(122,63,23,.15);
+  }
+  .size-grid{display:grid;grid-template-columns:1fr;gap:.5rem}
+  .qty-row{display:grid;grid-template-columns:1fr 110px;gap:.7rem}
+  .total-row{
+    display:flex;justify-content:space-between;align-items:center;
+    background:var(--bg-2);padding:.9rem 1rem;border-radius:12px;margin-top:1rem;
+    font-weight:600;
+  }
+  .total-row .total{font-family:'Bebas Neue',Impact,sans-serif;font-size:1.7rem;color:var(--accent)}
+  .order-btn{width:100%;justify-content:center;margin-top:1rem;font-size:1.05rem}
+  .form-note{font-size:.82rem;color:var(--ink-2);margin-top:.7rem;line-height:1.4}
+  .success-msg{
+    display:none;background:#e8f5e9;border:1.5px solid #a5d6a7;color:#1b5e20;
+    padding:1rem 1.2rem;border-radius:12px;margin-top:1rem;font-weight:500;
+  }
+  .success-msg.show{display:block}
+
+  /* ---------- HOW IT WORKS ---------- */
+  .steps{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;counter-reset:step}
+  @media (max-width:820px){ .steps{grid-template-columns:repeat(2,1fr)} }
+  @media (max-width:480px){ .steps{grid-template-columns:1fr} }
+  .step{
+    background:var(--cream);border:1px solid var(--line);border-radius:18px;padding:1.4rem;
+    position:relative;counter-increment:step;
+  }
+  .step::before{
+    content:counter(step);
+    font-family:'Bebas Neue',Impact,sans-serif;
+    position:absolute;top:.6rem;right:1rem;font-size:3rem;color:var(--bg-2);line-height:1;
+  }
+  .step h3{font-size:1.15rem;margin-bottom:.3rem}
+  .step p{margin:0;color:var(--ink-2);font-size:.93rem}
+
+  /* ---------- DONATION ---------- */
+  .donation{
+    background:linear-gradient(135deg,#1a2954 0%, #2c3f7a 100%);
+    color:var(--cream);text-align:center;
+  }
+  .donation h2, .donation .eyebrow{color:var(--cream)}
+  .donation .eyebrow{opacity:.85}
+  .donation p{color:#f1e0c4;max-width:62ch;margin:0 auto 1.6rem;font-size:1.08rem}
+  .donation .btn-primary{background:var(--cream);color:var(--accent);box-shadow:0 8px 30px rgba(0,0,0,.2)}
+  .donation .btn-primary:hover{background:#fff;color:var(--accent)}
+  .donation-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-top:2rem;max-width:640px;margin-left:auto;margin-right:auto}
+  .donation-stats .stat .n{color:var(--gold);font-size:2.4rem}
+  .donation-stats .stat .l{color:#f1e0c4}
+
+  /* ---------- FAQ ---------- */
+  .faq{display:grid;gap:.7rem;max-width:820px;margin:0 auto}
+  details{
+    background:var(--cream);border:1px solid var(--line);border-radius:14px;
+    padding:1rem 1.2rem;transition:background .15s ease;
+  }
+  details[open]{background:#fff}
+  summary{cursor:pointer;font-weight:600;list-style:none;display:flex;justify-content:space-between;align-items:center;color:var(--ink)}
+  summary::after{content:'+';font-size:1.4rem;color:var(--accent);transition:transform .2s ease}
+  details[open] summary::after{content:'−'}
+  details p{margin:.8rem 0 0;color:var(--ink-2)}
+
+  /* ---------- FOOTER ---------- */
+  footer{background:var(--ink);color:var(--cream);padding:3rem 0 2rem}
+  footer .row{display:grid;grid-template-columns:1.3fr 1fr 1fr;gap:2rem}
+  @media (max-width:720px){ footer .row{grid-template-columns:1fr} }
+  footer h4{color:var(--gold);font-family:'Bebas Neue',Impact,sans-serif;font-size:1.2rem;letter-spacing:.05em;margin:0 0 .6rem}
+  footer a{color:#f1e0c4}
+  footer .copy{border-top:1px solid #4a3520;margin-top:2rem;padding-top:1rem;font-size:.85rem;color:#c9b58e;display:flex;justify-content:space-between;flex-wrap:wrap;gap:.5rem}
+
+  /* ---------- UTIL ---------- */
+  .grain::before{
+    content:"";position:absolute;inset:0;pointer-events:none;opacity:.05;
+    background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85'/></filter><rect width='200' height='200' filter='url(%23n)'/></svg>");
+  }
+  .visually-hidden{position:absolute;left:-9999px}
+</style>
+</head>
+<body>
+
+<!-- ============ NAV ============ -->
+<nav class="top">
+  <div class="container row">
+    <a href="#top" class="brand">
+      <span class="brand-mark">P</span>
+      <span>Petje Af</span>
+    </a>
+    <div class="links">
+      <a href="#product">De Cap</a>
+      <a href="#verhaal">Verhaal</a>
+      <a href="#verzending">Verzending</a>
+      <a href="#doneer">Steun ons</a>
+      <a href="#faq">FAQ</a>
+    </div>
+    <a href="#bestel" class="cta">Pre-order →</a>
+  </div>
+</nav>
+
+<!-- ============ HERO ============ -->
+<header class="hero grain" id="top">
+  <div class="container hero-grid">
+    <div>
+      <span class="badge"><span class="dot"></span> <span id="hero-badge-text">Pre-order open · Eerste oplage · 40 stuks</span></span>
+      <h1 style="margin-top:1rem">Een pet voor <strong>jouw</strong> tijd</h1>
+      <p class="lead">
+        Tijdloos. Vintage. Eerlijk. Petje Af maakt caps in donkerblauw, beige en zwart —
+        ontworpen door studenten, voor studenten. Geen ruis, geen schreeuwerige logo's.
+        Gewoon een pet die past bij wie je bent.
+      </p>
+      <div class="hero-cta">
+        <a href="#bestel" class="btn btn-primary">Pre-order voor <span id="hero-price">€35</span> →</a>
+        <a href="#verhaal" class="btn btn-ghost">Lees ons verhaal</a>
+      </div>
+      <div class="meta-row">
+        <span><span class="check">✓</span> Vintage 6-panel</span>
+        <span><span class="check">✓</span> 100% katoen</span>
+        <span><span class="check">✓</span> Verstelbaar</span>
+        <span><span class="check">✓</span> Studentenbedrijf</span>
+      </div>
+    </div>
+    <div class="hero-img">
+      <img src="assets/cap-front.jpg" alt="Petje Af cap — vintage 6-panel in donkerblauw" onerror="this.style.display='none';this.nextElementSibling.style.display='grid'"/>
+      <div class="placeholder" style="display:none">
+        <div>
+          <div style="font-size:3rem;margin-bottom:.5rem">🧢</div>
+          <strong>Plaats je foto hier</strong><br/>
+          <span style="font-weight:400;font-size:.9rem;color:var(--ink-2)">assets/cap-front.jpg</span>
+        </div>
+      </div>
+      <div class="price-tag">€<span id="hero-tag-price">35</span></div>
+    </div>
+  </div>
+</header>
+
+<!-- ============ FEATURES / SALES ============ -->
+<section id="waarom">
+  <div class="container">
+    <div class="section-head">
+      <span class="eyebrow">Waarom Petje Af</span>
+      <h2>Tijdloos. Eerlijk. Voor jou.</h2>
+      <p>We hebben 36 studenten gevraagd wat ze zochten in een cap. Het antwoord: vintage stijl, minimalistisch, in donkerblauw, beige of zwart. Dat is exact wat we maken — niets meer, niets minder.</p>
+    </div>
+    <div class="features">
+      <div class="feature">
+        <div class="icon">◆</div>
+        <h3>Vintage 6-panel</h3>
+        <p>Klassieke 6-panel pasvorm met een licht washed katoen. Tijdloos, niet trendgebonden — een pet die je vijf jaar later nog draagt.</p>
+      </div>
+      <div class="feature">
+        <div class="icon">○</div>
+        <h3>Minimalistisch design</h3>
+        <p>Geen schreeuwerige logo's of opdruk. Een subtiel detail, in een kleur die bij de pet past. Stil, maar herkenbaar.</p>
+      </div>
+      <div class="feature">
+        <div class="icon">▪</div>
+        <h3>Drie kernkleuren</h3>
+        <p>Donkerblauw, beige en zwart — gekozen op basis van marktonderzoek onder studenten. Combineert met letterlijk alles uit je kast.</p>
+      </div>
+      <div class="feature">
+        <div class="icon">✕</div>
+        <h3>Door studenten</h3>
+        <p>Petje Af is opgericht aan de Hanzehogeschool Groningen. Elke pet die je koopt steunt direct ondernemende studenten in Nederland.</p>
+      </div>
+      <div class="feature">
+        <div class="icon">⌂</div>
+        <h3>One size fits most</h3>
+        <p>Metalen verstelbare gesp aan de achterkant. Past op de meeste hoofdomtrekken (54–60 cm).</p>
+      </div>
+      <div class="feature">
+        <div class="icon">●</div>
+        <h3>Limited drop</h3>
+        <p>Eerste oplage is 40 stuks. Pre-order is de enige manier om er zeker van te zijn dat je er een krijgt.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ STORY ============ -->
+<section class="story" id="verhaal">
+  <div class="container story-grid">
+    <div>
+      <span class="eyebrow">Ons verhaal</span>
+      <h2>Petje af voor de student die weet wat hij wil.</h2>
+      <p>
+        Petje Af is in 2026 opgericht door vier eerstejaars studenten aan de Hanzehogeschool Groningen,
+        opleiding Ondernemerschap &amp; Retailmanagement. Wij geloven dat een studentenbudget geen drempel mag zijn
+        voor kwaliteit — en dat een pet niet hard hoeft te schreeuwen om herkend te worden.
+      </p>
+      <p>
+        We staken ons petje af voor iedere student die durft te ondernemen. Vandaar de naam.
+        Petje Af is een studentenbedrijf onder <a href="https://studentenbedrijf.nl" target="_blank" rel="noopener">Stichting Jonge Honden</a>;
+        elke euro die we maken gaat terug in het bedrijf — naar een tweede collectie, betere kwaliteit, en het ondersteunen van studenten zoals jij.
+      </p>
+      <p style="margin-top:1.2rem;font-size:.95rem;color:var(--ink-2)">
+        <strong style="color:var(--ink)">Het team:</strong> Loek · Sam · Thomas · Rafael — Hanzehogeschool Groningen.
+      </p>
+    </div>
+    <div class="story-card">
+      <h3 style="font-family:'Inter',sans-serif;font-weight:700;font-size:1.1rem;text-transform:uppercase;letter-spacing:.1em;color:var(--accent);margin-bottom:1rem">In cijfers</h3>
+      <p style="margin:0;color:var(--ink-2)">36 studenten ondervraagd. 78% staat open voor een studentengerichte pet in onze prijsrange. Dit is wat we daarmee doen.</p>
+      <div class="stat-row">
+        <div class="stat"><div class="n">40</div><div class="l">Eerste oplage</div></div>
+        <div class="stat"><div class="n">3</div><div class="l">Kernkleuren</div></div>
+        <div class="stat"><div class="n">NL</div><div class="l">Verzending</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PRODUCT / PRE-ORDER ============ -->
+<section class="product" id="product">
+  <div class="container">
+    <div class="section-head">
+      <span class="eyebrow" id="prod-eyebrow">Pre-order · Eerste oplage · 40 stuks</span>
+      <h2>De Petje Af cap</h2>
+      <p>Vintage 6-panel in washed katoen. Donkerblauw, beige of zwart. Eén model — gemaakt om elke dag te dragen.</p>
+    </div>
+
+    <div class="product-grid" id="bestel">
+      <div class="gallery">
+        <div class="tile big">
+          <img src="assets/cap-front.jpg" alt="Pet vooraanzicht" onerror="this.style.display='none';this.parentElement.innerHTML='<span>Vooraanzicht<br><small>assets/cap-front.jpg</small></span>'"/>
+        </div>
+        <div class="tile">
+          <img src="assets/cap-back.jpg" alt="Pet achteraanzicht" onerror="this.style.display='none';this.parentElement.innerHTML='<span>Achterkant<br><small>assets/cap-back.jpg</small></span>'"/>
+        </div>
+        <div class="tile">
+          <img src="assets/cap-detail.jpg" alt="Borduurdetail" onerror="this.style.display='none';this.parentElement.innerHTML='<span>Detail<br><small>assets/cap-detail.jpg</small></span>'"/>
+        </div>
+      </div>
+
+      <form class="order-card" id="orderForm" novalidate>
+        <span class="preorder-tag" id="status-tag">Pre-order</span>
+        <h3 style="font-size:1.6rem;margin-top:.8rem">Petje Af — Vintage 6-panel</h3>
+        <p style="margin:0;color:var(--ink-2);font-size:.95rem">Donkerblauw · Beige · Zwart — verstelbaar, 100% katoen</p>
+        <div class="price">€<span id="form-price">35</span>,-<small id="delivery-line"> · levering eind juni 2026</small></div>
+
+        <div class="form-row">
+          <div>
+            <label for="of-name">Naam</label>
+            <input type="text" id="of-name" name="naam" required placeholder="Jouw naam" autocomplete="name"/>
+          </div>
+          <div>
+            <label for="of-email">E-mailadres</label>
+            <input type="email" id="of-email" name="email" required placeholder="jij@email.nl" autocomplete="email"/>
+          </div>
+          <div>
+            <label for="of-color">Kleur</label>
+            <select id="of-color" name="kleur" required>
+              <option value="donkerblauw">Donkerblauw</option>
+              <option value="beige">Beige</option>
+              <option value="zwart">Zwart</option>
+            </select>
+          </div>
+          <div class="qty-row">
+            <div>
+              <label for="of-address">Verzendadres</label>
+              <input type="text" id="of-address" name="adres" required placeholder="Straat, huisnr, postcode, plaats" autocomplete="street-address"/>
+            </div>
+            <div>
+              <label for="of-qty">Aantal</label>
+              <input type="number" id="of-qty" name="aantal" min="1" max="20" value="1" required/>
+            </div>
+          </div>
+          <div>
+            <label for="of-note">Opmerking (optioneel)</label>
+            <textarea id="of-note" name="opmerking" rows="2" placeholder="Iets dat we moeten weten?"></textarea>
+          </div>
+        </div>
+
+        <div class="total-row">
+          <span>Totaal</span>
+          <span class="total">€<span id="totalPrice">35</span>,-</span>
+        </div>
+
+        <button type="submit" class="btn btn-primary order-btn" id="submitBtn">
+          <span id="submitText">Bestellen & doorgaan naar betaling →</span>
+        </button>
+
+        <p class="form-note">
+          Bij bestelling sturen wij jouw gegevens naar onze inbox en word je doorgestuurd naar de beveiligde betaalpagina van Mollie (iDEAL, creditcard, Apple/Google Pay).
+          Je krijgt direct een bevestiging per mail.
+        </p>
+
+        <div class="success-msg" id="successMsg">
+          <strong>Top — je bestelling is binnen!</strong><br/>
+          Check je mail voor de bevestiging. Heb je nog niets ontvangen? Kijk in je spam, of mail ons direct.
+        </div>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- ============ HOW IT WORKS ============ -->
+<section id="hoe">
+  <div class="container">
+    <div class="section-head">
+      <span class="eyebrow">Zo werkt het</span>
+      <h2>Pre-order in 4 stappen</h2>
+    </div>
+    <div class="steps">
+      <div class="step">
+        <h3>1. Reserveer</h3>
+        <p>Vul je naam, adres en het aantal caps in. Direct verstuurd naar onze inbox.</p>
+      </div>
+      <div class="step">
+        <h3>2. Betaal</h3>
+        <p>Via Mollie (Nederlandse betaaldienst). iDEAL, creditcard of Apple/Google Pay.</p>
+      </div>
+      <div class="step">
+        <h3>3. Wij produceren</h3>
+        <p>Zodra de drop vol is, gaan we in productie. Je krijgt updates per mail.</p>
+      </div>
+      <div class="step">
+        <h3>4. In de bus</h3>
+        <p>Verzending via PostNL, met track & trace. Klaar om te dragen.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ DONATION ============ -->
+<section class="donation" id="doneer">
+  <div class="container">
+    <span class="eyebrow">Steun een studentenbedrijf</span>
+    <h2>Help ons groeien</h2>
+    <p>
+      Petje Af is een echt studentenbedrijf. Met je donatie maak je onze eerste oplage van 40 caps mogelijk —
+      en bij goed resultaat een tweede collectie, eigen merkregistratie en uitbreiding naar andere studentensteden.
+      Elke bijdrage telt, vanaf €10.
+    </p>
+    <a href="https://studentenbedrijf.nl/student_bedrijf/petje-af/" target="_blank" rel="noopener" class="btn btn-primary">
+      Doneer aan Petje Af →
+    </a>
+    <div class="donation-stats">
+      <div class="stat"><div class="n">100%</div><div class="l">Gaat naar ons bedrijf</div></div>
+      <div class="stat"><div class="n">€10+</div><div class="l">Vanaf €10 per donatie</div></div>
+      <div class="stat"><div class="n">Veilig</div><div class="l">Via Studentenbedrijf.nl</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ VERZEND- EN RETOURBELEID (verplicht volgens Studentenbedrijf) ============ -->
+<section id="verzending" style="background:var(--bg-2)">
+  <div class="container">
+    <div class="section-head">
+      <span class="eyebrow">Verzending & retour</span>
+      <h2>Hoe en wanneer krijg je 'm</h2>
+      <p>Alles over verzending, kosten, levertijd en hoe je een pet kunt retourneren.</p>
+    </div>
+
+    <div class="features" style="grid-template-columns:repeat(2,1fr)">
+      <div class="feature">
+        <div class="icon">📮</div>
+        <h3>Verzendmethode</h3>
+        <p>Alle pakketten worden verzonden met <strong>PostNL</strong> door heel Nederland en België, met track &amp; trace.</p>
+      </div>
+      <div class="feature">
+        <div class="icon">💶</div>
+        <h3>Verzendkosten</h3>
+        <p><strong>€4,95</strong> per bestelling binnen Nederland. <strong>Gratis</strong> verzending vanaf 2 caps in één bestelling.</p>
+      </div>
+      <div class="feature">
+        <div class="icon">⏱️</div>
+        <h3>Verzendtermijn</h3>
+        <p>Reguliere bestellingen: <strong>binnen 3 werkdagen</strong> verzonden.<br/>Pre-orders: zodra de drop in productie is — geschatte levering staat in je bevestigingsmail.</p>
+      </div>
+      <div class="feature">
+        <div class="icon">↩️</div>
+        <h3>Retourbeleid</h3>
+        <p>Je hebt <strong>14 dagen wettelijk herroepingsrecht</strong>. Stuur de pet ongedragen retour met het herroepingsformulier (te downloaden in de footer). Retourkosten zijn voor de klant. Bij ontvangst storten wij het aankoopbedrag terug.</p>
+      </div>
+    </div>
+
+    <div class="story-card" style="margin-top:2rem;max-width:720px">
+      <h3 style="font-family:'Inter',sans-serif;font-weight:700;font-size:1rem;text-transform:uppercase;letter-spacing:.1em;color:var(--accent);margin-bottom:.6rem">Retouradres</h3>
+      <p style="margin:0;color:var(--ink-2)">
+        Stichting Jonge Honden — Petje Af<br/>
+        Kleiwerd 42<br/>
+        9746 CV Groningen
+      </p>
+      <p style="margin:.8rem 0 0;font-size:.88rem;color:var(--ink-2)">
+        Stuur altijd het ingevulde retourformulier mee dat in het pakket zit, anders kunnen we de retour niet verwerken.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FAQ ============ -->
+<section id="faq">
+  <div class="container">
+    <div class="section-head" style="margin:0 auto 2.5rem;text-align:center">
+      <span class="eyebrow">Veelgestelde vragen</span>
+      <h2>Vragen? Wij hebben antwoorden.</h2>
+    </div>
+    <div class="faq">
+      <details>
+        <summary>Wanneer wordt mijn pet geleverd?</summary>
+        <p>Onze eerste pre-order drop wordt naar verwachting eind juni 2026 verstuurd. Je krijgt updates per mail over de productie en verzending.</p>
+      </details>
+      <details>
+        <summary>Welke kleuren zijn er?</summary>
+        <p>Drie kernkleuren — donkerblauw, beige en zwart — gekozen op basis van marktonderzoek onder 36 studenten. Donkerblauw was de meest gekozen kleur (100% van de respondenten).</p>
+      </details>
+      <details>
+        <summary>Hoe kan ik betalen?</summary>
+        <p>Via Mollie, de Nederlandse betaaldienst: iDEAL, Bancontact, creditcard, Apple Pay of Google Pay. Veilig en snel — Mollie is door Stichting Studentenbedrijf aangesloten als officiële betaalpartner.</p>
+      </details>
+      <details>
+        <summary>Wat als de pet niet past?</summary>
+        <p>De cap heeft een verstelbare metalen gesp en past op de meeste hoofdomtrekken (54–60 cm). Past hij toch niet? Mail ons binnen 14 dagen en we lossen het op.</p>
+      </details>
+      <details>
+        <summary>Kan ik annuleren tijdens pre-order?</summary>
+        <p>Ja — zolang we nog niet in productie zijn kun je kosteloos annuleren. Mail ons je bestelnummer en we regelen de terugbetaling.</p>
+      </details>
+      <details>
+        <summary>Verzenden jullie buiten Nederland?</summary>
+        <p>Op dit moment alleen binnen Nederland en België. Vraag staat open voor de rest van Europa zodra de eerste drop uit is.</p>
+      </details>
+      <details>
+        <summary>Hoe steun ik jullie als studentenbedrijf?</summary>
+        <p>Pre-order een pet, of doneer direct via onze pagina op <a href="https://studentenbedrijf.nl/student_bedrijf/petje-af/" target="_blank" rel="noopener">studentenbedrijf.nl/petje-af</a>. Beide helpen ons groeien.</p>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FOOTER (verplichte info Stichting Studentenbedrijf) ============ -->
+<footer>
+  <div class="container">
+    <div class="row" style="grid-template-columns:1.2fr 1fr 1fr 1fr">
+      <div>
+        <div class="brand" style="color:var(--cream);margin-bottom:.6rem">
+          <span class="brand-mark" style="background:var(--gold);color:var(--ink)">P</span>
+          Petje Af
+        </div>
+        <p style="color:#c9b58e;max-width:38ch;font-size:.92rem;margin:0">
+          Een pet voor jouw tijd. Vintage, minimalistisch, eerlijk. Gemaakt door studenten aan de Hanzehogeschool Groningen.
+        </p>
+        <p style="color:#a8966c;font-size:.82rem;margin:.8rem 0 0">
+          Team: Loek · Sam · Thomas · Rafael
+        </p>
+      </div>
+
+      <div>
+        <h4>Bedrijfsgegevens</h4>
+        <p style="margin:0;line-height:1.7;font-size:.88rem;color:#f1e0c4">
+          <strong style="color:var(--cream)">Stichting Jonge Honden</strong><br/>
+          h.o.d.n. Petje Af<br/>
+          Kleiwerd 42<br/>
+          9746 CV Groningen<br/>
+          KvK: 01166795<br/>
+          BTW: NL821517338B01
+        </p>
+      </div>
+
+      <div>
+        <h4>Contact</h4>
+        <p style="margin:0;line-height:1.9;font-size:.92rem">
+          <a href="tel:+31618877828">06-18877828</a><br/>
+          <a id="footer-email" href="mailto:Rafaeltopgr@gmail.com">Rafaeltopgr@gmail.com</a><br/>
+          <a href="https://studentenbedrijf.nl/student_bedrijf/petje-af/" target="_blank" rel="noopener">Studentenbedrijf.nl</a>
+        </p>
+      </div>
+
+      <div>
+        <h4>Voorwaarden</h4>
+        <p style="margin:0;line-height:1.9;font-size:.92rem">
+          <a href="docs/algemene-voorwaarden.pdf" target="_blank" rel="noopener">Algemene voorwaarden</a><br/>
+          <a href="docs/herroepingsformulier.pdf" target="_blank" rel="noopener">Modelformulier herroeping</a><br/>
+          <a href="#verzending">Verzending &amp; retour</a><br/>
+          <a href="#faq">FAQ</a>
+        </p>
+      </div>
+    </div>
+    <div class="copy">
+      <span>© <span id="year"></span> Stichting Jonge Honden · Petje Af is een studentenbedrijf onder de Stichting</span>
+      <span>Made with ☕ in NL</span>
+    </div>
+  </div>
+</footer>
+
+<!-- ============================================================
+     CONFIGURATIE — pas hier je gegevens aan
+     ============================================================ -->
+<script id="config">
+  /* ===== HIER JOUW GEGEVENS INVULLEN ===== */
+  window.PETJE_AF_CONFIG = {
+
+    // E-mailadres waar bestellingen naartoe gaan
+    ORDER_EMAIL: "rjm.top@st.hanze.nl",
+
+    // Formspree endpoint voor het orderformulier (AJAX / JSON POST)
+    FORMSPREE_ENDPOINT: "https://formspree.io/f/mdabrowv",
+
+    // Pad naar de Netlify Function die Mollie payments aanmaakt.
+    // De Mollie API key zelf staat NIET hier, maar als environment variable
+    // in Netlify (MOLLIE_API_KEY). Zo blijft de key veilig.
+    MOLLIE_FUNCTION_PATH: "/.netlify/functions/create-payment",
+
+    // Pre-order modus aan/uit. true = "Pre-order", false = "Bestel nu" (reguliere verkoop)
+    PREORDER_MODE: true,
+
+    // Tekst voor levertijd (gebruikt in formulier)
+    DELIVERY_ESTIMATE: "eind juni 2026",
+
+    // Prijs in euro (geheel getal). Pas hier aan als je de prijs verandert.
+    PRICE_EUR: 35,
+  };
+</script>
+
+<!-- ============ LOGIC ============ -->
+<script>
+(function(){
+  const cfg = window.PETJE_AF_CONFIG;
+
+  // Apply config to DOM
+  document.getElementById('year').textContent = new Date().getFullYear();
+  document.querySelectorAll('#hero-price').forEach(el => el.textContent = '€' + cfg.PRICE_EUR);
+  document.getElementById('hero-tag-price').textContent = cfg.PRICE_EUR;
+  document.getElementById('form-price').textContent = cfg.PRICE_EUR;
+  document.getElementById('delivery-line').textContent = cfg.PREORDER_MODE ? ' · levering ' + cfg.DELIVERY_ESTIMATE : ' · direct uit voorraad';
+  document.getElementById('status-tag').textContent = cfg.PREORDER_MODE ? 'Pre-order' : 'Op voorraad';
+  document.getElementById('status-tag').style.background = cfg.PREORDER_MODE ? '' : '#9ed4a0';
+  document.getElementById('submitText').textContent = (cfg.PREORDER_MODE ? 'Pre-order' : 'Bestel') + ' & ga naar betaling →';
+  document.getElementById('hero-badge-text').textContent = cfg.PREORDER_MODE ? 'Pre-order open · Eerste oplage · 40 stuks' : 'Op voorraad · Snel verzonden';
+  document.getElementById('prod-eyebrow').textContent = cfg.PREORDER_MODE ? 'Pre-order · Eerste oplage · 40 stuks' : 'Beschikbaar';
+
+  // Footer mail
+  const fe = document.getElementById('footer-email');
+  if (fe && cfg.ORDER_EMAIL) fe.href = 'mailto:' + cfg.ORDER_EMAIL;
+
+  // Live total
+  const qty = document.getElementById('of-qty');
+  const total = document.getElementById('totalPrice');
+  function recalc(){
+    const n = Math.max(1, parseInt(qty.value || '1', 10));
+    total.textContent = (n * cfg.PRICE_EUR);
+  }
+  qty.addEventListener('input', recalc);
+  recalc();
+
+  // Form submit
+  const form = document.getElementById('orderForm');
+  const successMsg = document.getElementById('successMsg');
+  const submitBtn = document.getElementById('submitBtn');
+  const submitText = document.getElementById('submitText');
+
+  form.addEventListener('submit', async function(e){
+    e.preventDefault();
+    if (!form.reportValidity()) return;
+
+    submitText.textContent = 'Versturen...';
+    submitBtn.disabled = true;
+
+    const aantal = Math.max(1, parseInt(form.aantal.value, 10) || 1);
+    const totaal = aantal * cfg.PRICE_EUR;
+
+    const orderData = {
+      naam: form.naam.value.trim(),
+      email: form.email.value.trim(),
+      adres: form.adres.value.trim(),
+      kleur: form.kleur.value,
+      aantal: aantal,
+      opmerking: form.opmerking.value.trim(),
+      prijs_per_pet: cfg.PRICE_EUR,
+      totaal: totaal,
+      modus: cfg.PREORDER_MODE ? 'PRE-ORDER' : 'Reguliere bestelling',
+    };
+
+    // 1) Stuur naar Formspree (zodat jij de bestelling per mail krijgt)
+    try {
+      await fetch(cfg.FORMSPREE_ENDPOINT, {
+        method: 'POST',
+        headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          ...orderData,
+          prijs_per_pet: '€' + cfg.PRICE_EUR,
+          totaal_euro: '€' + totaal,
+          _subject: 'Nieuwe Petje Af bestelling — ' + orderData.naam,
+        }),
+      });
+    } catch (err) {
+      console.warn('Formspree melding mislukt (gaat door met betaling)', err);
+    }
+
+    // 2) Vraag Netlify Function om Mollie checkout aan te maken
+    let checkoutUrl = null;
+    try {
+      const resp = await fetch(cfg.MOLLIE_FUNCTION_PATH, {
+        method: 'POST',
+        headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
+        body: JSON.stringify(orderData),
+      });
+      const json = await resp.json();
+      if (resp.ok && json.checkoutUrl) {
+        checkoutUrl = json.checkoutUrl;
+      } else {
+        console.error('Mollie functie response:', json);
+      }
+    } catch (err) {
+      console.error('Mollie functie error', err);
+    }
+
+    if (!checkoutUrl) {
+      submitText.textContent = 'Betaling mislukt — mail ons';
+      submitBtn.disabled = false;
+      alert(
+        'Het lukte niet om de betaling op te starten. Je bestelling is wel naar ons gestuurd — wij nemen contact op via ' +
+        orderData.email + '. Lukt het niet? Mail ' + cfg.ORDER_EMAIL + '.'
+      );
+      return;
+    }
+
+    successMsg.classList.add('show');
+    submitText.textContent = 'Doorsturen naar Mollie betaling...';
+    setTimeout(() => { window.location.href = checkoutUrl; }, 800);
+  });
+
+  // Smooth scroll voor anchor links
+  document.querySelectorAll('a[href^="#"]').forEach(a => {
+    a.addEventListener('click', function(e){
+      const id = this.getAttribute('href').slice(1);
+      const el = document.getElementById(id);
+      if (el) {
+        e.preventDefault();
+        el.scrollIntoView({behavior:'smooth', block:'start'});
+      }
+    });
+  });
+})();
+</script>
+
+</body>
+</html>
