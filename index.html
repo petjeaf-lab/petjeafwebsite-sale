@@ -3,10 +3,10 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Petje Af — Tijdloze caps, door studenten voor studenten | Pre-order</title>
-<meta name="description" content="Petje Af is een studentenbedrijf uit Groningen. Vintage en minimalistische caps in donkerblauw, beige en zwart — door studenten, voor studenten. Pre-order jouw cap." />
+<title>Petje Af — De cap met de fiets en het kratje | Pre-order</title>
+<meta name="description" content="Petje Af is een studentenbedrijf uit Groningen. Beige washed katoen met geborduurde fiets en bierkrat — de cap voor elke student. Pre-order via petjeaf.nl." />
 <meta property="og:title" content="Petje Af — Een pet voor jouw tijd" />
-<meta property="og:description" content="Vintage caps in donkerblauw, beige en zwart. Door studenten, voor studenten. Eerlijke kwaliteit, eerlijke prijs. Pre-order via petjeaf.nl." />
+<meta property="og:description" content="Geborduurde beige cap met fiets en kratje. Door studenten, voor studenten. Pre-order nu." />
 <meta property="og:type" content="website" />
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -17,18 +17,18 @@
      Pas configuratie aan onderin in <script id="config">
      ========================================================= */
   :root{
-    /* Kleurenpalet ondernemingsplan: donkerblauw (100%), beige (88%), zwart (71%) */
-    --bg:#f5ede0;          /* beige achtergrond */
-    --bg-2:#ebe1ce;        /* iets dieper beige */
-    --cream:#faf3e6;       /* off-white card */
-    --ink:#0f1830;         /* bijna zwart, met blauwe ondertoon */
-    --ink-2:#3a4566;       /* secundaire tekst */
-    --accent:#1a2954;      /* donkerblauw — primaire accent */
-    --accent-2:#2c3f7a;    /* iets lichter donkerblauw */
-    --gold:#c9a96a;        /* subtiel goud accent */
-    --line:#d2c4a8;        /* beige lijn */
+    /* Kleurpalet afgestemd op de echte pet: beige katoen + bruin borduurwerk */
+    --bg:#f5ede0;
+    --bg-2:#ede2cf;
+    --cream:#faf3e6;
+    --ink:#2b1d10;
+    --ink-2:#4a3520;
+    --accent:#7a3f17;   /* donker borduur-bruin (matcht het borduursel) */
+    --accent-2:#a85a25; /* warm bruin */
+    --gold:#d4a24a;
+    --line:#d8c7a8;
     --ok:#2e7d32;
-    --shadow: 0 12px 40px rgba(26,41,84,.14);
+    --shadow: 0 12px 40px rgba(60,30,10,.12);
   }
   *{box-sizing:border-box}
   html,body{margin:0;padding:0}
@@ -111,7 +111,7 @@
   /* HERO image */
   .hero-img{
     position:relative;border-radius:24px;overflow:hidden;
-    background:#e9d8b9;aspect-ratio:4/3;
+    background:#e9d8b9;aspect-ratio:3/2;
     box-shadow:var(--shadow);
   }
   .hero-img img{width:100%;height:100%;object-fit:cover}
@@ -230,7 +230,7 @@
 
   /* ---------- DONATION ---------- */
   .donation{
-    background:linear-gradient(135deg,#1a2954 0%, #2c3f7a 100%);
+    background:linear-gradient(135deg,#7a3f17 0%, #a85a25 100%);
     color:var(--cream);text-align:center;
   }
   .donation h2, .donation .eyebrow{color:var(--cream)}
@@ -268,6 +268,117 @@
     background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85'/></filter><rect width='200' height='200' filter='url(%23n)'/></svg>");
   }
   .visually-hidden{position:absolute;left:-9999px}
+
+  /* =========================================================
+     MOBIEL & TABLET OPTIMALISATIES
+     ========================================================= */
+
+  /* Smooth tap-feedback (geen blauwe flash op iOS/Android) */
+  a, button, summary, .btn, input, select, textarea {
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+  }
+
+  /* Smooth scroll voor anchor links (en respecteert sticky nav-hoogte) */
+  html { scroll-behavior: smooth; scroll-padding-top: 80px; }
+
+  /* iPhone notch / home-indicator respecteren */
+  @supports(padding: max(0px)) {
+    .container { padding-left: max(1.25rem, env(safe-area-inset-left));
+                 padding-right: max(1.25rem, env(safe-area-inset-right)); }
+    footer { padding-bottom: max(2rem, calc(2rem + env(safe-area-inset-bottom))); }
+  }
+
+  /* iOS forceert zoom op input-focus als font-size < 16px. Voorkomen: */
+  input, select, textarea { font-size: 16px !important; }
+
+  /* TABLET — onder 900px breed (al deels gedefinieerd boven, hier finetunes) */
+  @media (max-width: 900px){
+    section{ padding: 4rem 0; }
+    .hero{ padding: 3rem 0 2.5rem; }
+    .section-head{ margin-bottom: 2rem; }
+    .order-card{ position: static; }   /* niet meer sticky op mobiel/tablet */
+  }
+
+  /* MOBIEL — onder 640px */
+  @media (max-width: 640px){
+    .container{ padding: 0 1.1rem; }
+    section{ padding: 3rem 0; }
+    .hero{ padding: 2rem 0 1.8rem; }
+
+    /* Typografie */
+    h3{ font-size: 1.25rem; }
+    .hero p.lead{ font-size: 1.05rem; }
+    .section-head p{ font-size: 1rem; }
+
+    /* Hero CTAs: gestapeld, vol op breedte */
+    .hero-cta{ flex-direction: column; align-items: stretch; gap: .6rem; }
+    .hero-cta .btn{ justify-content: center; width: 100%; }
+
+    /* Hero image iets vierkanter (mobiel beter gevuld) */
+    .hero-img{ aspect-ratio: 4/3; border-radius: 18px; }
+    .price-tag{ font-size: 1.05rem; padding: .4rem .8rem; top: 10px; right: 10px; }
+
+    /* Meta-row compacter */
+    .meta-row{ gap: .6rem 1rem; font-size: .88rem; margin-top: 1.4rem; }
+    .check{ width: 16px; height: 16px; font-size: .65rem; }
+
+    /* Knoppen — minimum tap-target 44px */
+    .btn{ padding: .9rem 1.3rem; min-height: 44px; font-size: .98rem; }
+    .order-btn{ font-size: 1rem; }
+
+    /* Cards / kaders — minder padding */
+    .feature{ padding: 1.3rem; border-radius: 16px; }
+    .story-card{ padding: 1.5rem; border-radius: 18px; }
+    .order-card{ padding: 1.4rem; border-radius: 18px; }
+    .step{ padding: 1.2rem; }
+    details{ padding: .9rem 1.05rem; }
+
+    /* Prijs en totaal kleiner */
+    .price{ font-size: 2.6rem; }
+    .total-row{ padding: .8rem .9rem; }
+    .total-row .total{ font-size: 1.5rem; }
+
+    /* Stats — getallen iets kleiner */
+    .stat .n{ font-size: 1.9rem; }
+
+    /* Donation: van 3 → 1 kolom onder 480px, hier vast voorbereiden */
+    .donation p{ font-size: 1rem; }
+    .donation-stats{ gap: .8rem; margin-top: 1.6rem; }
+    .donation-stats .stat .n{ font-size: 2rem; }
+
+    /* Formulier compacter */
+    .form-row{ gap: .7rem; }
+    .qty-row{ grid-template-columns: 1fr 90px; gap: .6rem; }
+
+    /* Nav iets minder hoog */
+    nav.top .row{ height: 58px; }
+    nav .cta{ padding: .55rem .9rem; font-size: .9rem; }
+    .brand{ font-size: .95rem; }
+    .brand-mark{ width: 32px; height: 32px; font-size: 1.05rem; }
+
+    /* Footer */
+    footer{ padding: 2.5rem 0 1.5rem; }
+    footer .row{ gap: 1.6rem; }
+    footer .copy{ font-size: .8rem; flex-direction: column; align-items: flex-start; }
+  }
+
+  /* HEEL KLEIN — onder 400px (oude/kleine telefoons) */
+  @media (max-width: 400px){
+    .container{ padding: 0 .95rem; }
+    .hero p.lead{ font-size: 1rem; }
+    .donation-stats{ grid-template-columns: 1fr; max-width: 240px; }
+    .feature .icon{ width: 40px; height: 40px; font-size: 1.2rem; }
+    .price{ font-size: 2.3rem; }
+    .stat .n{ font-size: 1.7rem; }
+
+    /* Section-head titels niet over de rand */
+    h2{ word-wrap: break-word; }
+  }
+
+  /* Voorkomen dat lange links/woorden horizontaal scrollen op smalle schermen */
+  body{ overflow-x: hidden; }
+  h1, h2, h3, p, a, summary{ overflow-wrap: break-word; word-wrap: break-word; }
 </style>
 </head>
 <body>
@@ -297,23 +408,22 @@
       <span class="badge"><span class="dot"></span> <span id="hero-badge-text">Pre-order open · Eerste oplage · 40 stuks</span></span>
       <h1 style="margin-top:1rem">Een pet voor <strong>jouw</strong> tijd</h1>
       <p class="lead">
-        Tijdloos. Vintage. Eerlijk. Petje Af maakt caps in donkerblauw, beige en zwart —
-        ontworpen door studenten, voor studenten. Geen ruis, geen schreeuwerige logo's.
-        Gewoon een pet die past bij wie je bent.
+        Beige washed katoen. Geborduurd in diep bruin: de fiets en het kratje —
+        ode aan de mooiste avonden van je studietijd. Gemaakt door studenten, voor studenten.
       </p>
       <div class="hero-cta">
         <a href="#bestel" class="btn btn-primary">Pre-order voor <span id="hero-price">€35</span> →</a>
         <a href="#verhaal" class="btn btn-ghost">Lees ons verhaal</a>
       </div>
       <div class="meta-row">
-        <span><span class="check">✓</span> Vintage 6-panel</span>
+        <span><span class="check">✓</span> Echt geborduurd</span>
         <span><span class="check">✓</span> 100% katoen</span>
         <span><span class="check">✓</span> Verstelbaar</span>
         <span><span class="check">✓</span> Studentenbedrijf</span>
       </div>
     </div>
     <div class="hero-img">
-      <img src="assets/cap-front.jpg" alt="Petje Af cap — vintage 6-panel in donkerblauw" onerror="this.style.display='none';this.nextElementSibling.style.display='grid'"/>
+      <img src="assets/cap-hero.jpg" alt="Petje Af cap — voorkant met geborduurde fiets en bierkrat, en achterkant" onerror="this.style.display='none';this.nextElementSibling.style.display='grid'"/>
       <div class="placeholder" style="display:none">
         <div>
           <div style="font-size:3rem;margin-bottom:.5rem">🧢</div>
@@ -331,39 +441,39 @@
   <div class="container">
     <div class="section-head">
       <span class="eyebrow">Waarom Petje Af</span>
-      <h2>Tijdloos. Eerlijk. Voor jou.</h2>
-      <p>We hebben 36 studenten gevraagd wat ze zochten in een cap. Het antwoord: vintage stijl, minimalistisch, in donkerblauw, beige of zwart. Dat is exact wat we maken — niets meer, niets minder.</p>
+      <h2>Niet zomaar een pet</h2>
+      <p>Dit is de cap die je opzet als je naar college fietst, op het terras zit, of vrijdagavond de stad in gaat. Eén item, eindeloos veel verhalen.</p>
     </div>
     <div class="features">
       <div class="feature">
-        <div class="icon">◆</div>
-        <h3>Vintage 6-panel</h3>
-        <p>Klassieke 6-panel pasvorm met een licht washed katoen. Tijdloos, niet trendgebonden — een pet die je vijf jaar later nog draagt.</p>
+        <div class="icon">🪡</div>
+        <h3>Echt geborduurd</h3>
+        <p>Geen goedkope print — diep bruin geborduurd op beige washed katoen. Blijft scherp, ook na 100 wasbeurten.</p>
       </div>
       <div class="feature">
-        <div class="icon">○</div>
-        <h3>Minimalistisch design</h3>
-        <p>Geen schreeuwerige logo's of opdruk. Een subtiel detail, in een kleur die bij de pet past. Stil, maar herkenbaar.</p>
+        <div class="icon">🚲</div>
+        <h3>Fiets & kratje</h3>
+        <p>De twee dingen die het leukst zijn aan studeren: fietsen en samen iets drinken. Op de voorkant en achterkant geborduurd.</p>
       </div>
       <div class="feature">
-        <div class="icon">▪</div>
-        <h3>Drie kernkleuren</h3>
-        <p>Donkerblauw, beige en zwart — gekozen op basis van marktonderzoek onder studenten. Combineert met letterlijk alles uit je kast.</p>
+        <div class="icon">🌾</div>
+        <h3>Premium katoen</h3>
+        <p>Zachte beige washed cotton. Direct comfortabel — geen "ingedragen" gevoel nodig.</p>
       </div>
       <div class="feature">
-        <div class="icon">✕</div>
-        <h3>Door studenten</h3>
-        <p>Petje Af is opgericht aan de Hanzehogeschool Groningen. Elke pet die je koopt steunt direct ondernemende studenten in Nederland.</p>
-      </div>
-      <div class="feature">
-        <div class="icon">⌂</div>
+        <div class="icon">🔧</div>
         <h3>One size fits most</h3>
-        <p>Metalen verstelbare gesp aan de achterkant. Past op de meeste hoofdomtrekken (54–60 cm).</p>
+        <p>Metalen verstelbare gesp aan de achterkant. Past op jouw hoofd, en op dat van je huisgenoot.</p>
       </div>
       <div class="feature">
-        <div class="icon">●</div>
+        <div class="icon">🎓</div>
+        <h3>Door studenten</h3>
+        <p>Petje Af is een echt studentenbedrijf aan de Hanzehogeschool Groningen. Elke pet steunt direct ondernemende studenten.</p>
+      </div>
+      <div class="feature">
+        <div class="icon">📦</div>
         <h3>Limited drop</h3>
-        <p>Eerste oplage is 40 stuks. Pre-order is de enige manier om er zeker van te zijn dat je er een krijgt.</p>
+        <p>Eerste oplage is 40 stuks. Pre-order is de enige manier om er zeker van te zijn dat jij een Petje Af krijgt.</p>
       </div>
     </div>
   </div>
@@ -374,16 +484,20 @@
   <div class="container story-grid">
     <div>
       <span class="eyebrow">Ons verhaal</span>
-      <h2>Petje af voor de student die weet wat hij wil.</h2>
+      <h2>Begonnen op een terras, eindigt op jouw hoofd.</h2>
       <p>
         Petje Af is in 2026 opgericht door vier eerstejaars studenten aan de Hanzehogeschool Groningen,
-        opleiding Ondernemerschap &amp; Retailmanagement. Wij geloven dat een studentenbudget geen drempel mag zijn
-        voor kwaliteit — en dat een pet niet hard hoeft te schreeuwen om herkend te worden.
+        opleiding Ondernemerschap &amp; Retailmanagement. We merkten dat er één essentieel item ontbrak in
+        elke garderobe: een cap die past bij het Nederlandse studentenleven.
       </p>
       <p>
-        We staken ons petje af voor iedere student die durft te ondernemen. Vandaar de naam.
-        Petje Af is een studentenbedrijf onder <a href="https://studentenbedrijf.nl" target="_blank" rel="noopener">Stichting Jonge Honden</a>;
-        elke euro die we maken gaat terug in het bedrijf — naar een tweede collectie, betere kwaliteit, en het ondersteunen van studenten zoals jij.
+        Geen tekst, geen logo van een merk dat je niet kent — maar de twee dingen die het leukst zijn aan studeren:
+        fietsen en samen iets drinken. Geborduurd in diep bruin op beige washed katoen.
+      </p>
+      <p>
+        We zijn ingeschreven als studentenbedrijf bij <a href="https://studentenbedrijf.nl" target="_blank" rel="noopener">Studentenbedrijf.nl</a>,
+        onder Stichting Jonge Honden. Elke euro die we maken gaat terug in het bedrijf — naar een tweede drop,
+        betere kwaliteit, en het ondersteunen van studenten zoals jij.
       </p>
       <p style="margin-top:1.2rem;font-size:.95rem;color:var(--ink-2)">
         <strong style="color:var(--ink)">Het team:</strong> Loek · Sam · Thomas · Rafael — Hanzehogeschool Groningen.
@@ -391,10 +505,10 @@
     </div>
     <div class="story-card">
       <h3 style="font-family:'Inter',sans-serif;font-weight:700;font-size:1.1rem;text-transform:uppercase;letter-spacing:.1em;color:var(--accent);margin-bottom:1rem">In cijfers</h3>
-      <p style="margin:0;color:var(--ink-2)">36 studenten ondervraagd. 78% staat open voor een studentengerichte pet in onze prijsrange. Dit is wat we daarmee doen.</p>
+      <p style="margin:0;color:var(--ink-2)">36 studenten ondervraagd. 78% staat open voor een studentengerichte pet. Dit is wat we daarmee doen.</p>
       <div class="stat-row">
         <div class="stat"><div class="n">40</div><div class="l">Eerste oplage</div></div>
-        <div class="stat"><div class="n">3</div><div class="l">Kernkleuren</div></div>
+        <div class="stat"><div class="n">100%</div><div class="l">Katoen</div></div>
         <div class="stat"><div class="n">NL</div><div class="l">Verzending</div></div>
       </div>
     </div>
@@ -407,7 +521,7 @@
     <div class="section-head">
       <span class="eyebrow" id="prod-eyebrow">Pre-order · Eerste oplage · 40 stuks</span>
       <h2>De Petje Af cap</h2>
-      <p>Vintage 6-panel in washed katoen. Donkerblauw, beige of zwart. Eén model — gemaakt om elke dag te dragen.</p>
+      <p>Beige washed katoen met diep bruin geborduurde fiets, kratje en logo. Eén model — gemaakt om elke dag te dragen.</p>
     </div>
 
     <div class="product-grid" id="bestel">
@@ -425,8 +539,8 @@
 
       <form class="order-card" id="orderForm" novalidate>
         <span class="preorder-tag" id="status-tag">Pre-order</span>
-        <h3 style="font-size:1.6rem;margin-top:.8rem">Petje Af — Vintage 6-panel</h3>
-        <p style="margin:0;color:var(--ink-2);font-size:.95rem">Donkerblauw · Beige · Zwart — verstelbaar, 100% katoen</p>
+        <h3 style="font-size:1.6rem;margin-top:.8rem">Petje Af — Beige</h3>
+        <p style="margin:0;color:var(--ink-2);font-size:.95rem">Geborduurd · Verstelbaar · 100% katoen</p>
         <div class="price">€<span id="form-price">35</span>,-<small id="delivery-line"> · levering eind juni 2026</small></div>
 
         <div class="form-row">
@@ -437,14 +551,6 @@
           <div>
             <label for="of-email">E-mailadres</label>
             <input type="email" id="of-email" name="email" required placeholder="jij@email.nl" autocomplete="email"/>
-          </div>
-          <div>
-            <label for="of-color">Kleur</label>
-            <select id="of-color" name="kleur" required>
-              <option value="donkerblauw">Donkerblauw</option>
-              <option value="beige">Beige</option>
-              <option value="zwart">Zwart</option>
-            </select>
           </div>
           <div class="qty-row">
             <div>
@@ -593,8 +699,8 @@
         <p>Onze eerste pre-order drop wordt naar verwachting eind juni 2026 verstuurd. Je krijgt updates per mail over de productie en verzending.</p>
       </details>
       <details>
-        <summary>Welke kleuren zijn er?</summary>
-        <p>Drie kernkleuren — donkerblauw, beige en zwart — gekozen op basis van marktonderzoek onder 36 studenten. Donkerblauw was de meest gekozen kleur (100% van de respondenten).</p>
+        <summary>Welke kleur is de pet?</summary>
+        <p>De eerste drop is beige washed katoen met diep bruin borduurwerk — de fiets op de voorkant, het kratje en logo op de achterkant. Eén kleurway voor de eerste oplage.</p>
       </details>
       <details>
         <summary>Hoe kan ik betalen?</summary>
@@ -630,7 +736,7 @@
           Petje Af
         </div>
         <p style="color:#c9b58e;max-width:38ch;font-size:.92rem;margin:0">
-          Een pet voor jouw tijd. Vintage, minimalistisch, eerlijk. Gemaakt door studenten aan de Hanzehogeschool Groningen.
+          De cap met de fiets en het kratje. Geborduurd op beige washed katoen. Gemaakt door studenten aan de Hanzehogeschool Groningen.
         </p>
         <p style="color:#a8966c;font-size:.82rem;margin:.8rem 0 0">
           Team: Loek · Sam · Thomas · Rafael
@@ -661,8 +767,8 @@
       <div>
         <h4>Voorwaarden</h4>
         <p style="margin:0;line-height:1.9;font-size:.92rem">
-          <a href="docs/algemene-voorwaarden.pdf" target="_blank" rel="noopener">Algemene voorwaarden</a><br/>
-          <a href="docs/herroepingsformulier.pdf" target="_blank" rel="noopener">Modelformulier herroeping</a><br/>
+          <a href="algemene-voorwaarden.html">Algemene voorwaarden</a><br/>
+          <a href="herroepingsformulier.html">Modelformulier herroeping</a><br/>
           <a href="#verzending">Verzending &amp; retour</a><br/>
           <a href="#faq">FAQ</a>
         </p>
@@ -683,7 +789,7 @@
   window.PETJE_AF_CONFIG = {
 
     // E-mailadres waar bestellingen naartoe gaan
-    ORDER_EMAIL: "rjm.top@st.hanze.nl",
+    ORDER_EMAIL: "jouw@email.nl",
 
     // Formspree endpoint voor het orderformulier (AJAX / JSON POST)
     FORMSPREE_ENDPOINT: "https://formspree.io/f/mdabrowv",
@@ -755,7 +861,6 @@
       naam: form.naam.value.trim(),
       email: form.email.value.trim(),
       adres: form.adres.value.trim(),
-      kleur: form.kleur.value,
       aantal: aantal,
       opmerking: form.opmerking.value.trim(),
       prijs_per_pet: cfg.PRICE_EUR,

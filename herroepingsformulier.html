@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Modelformulier voor Herroeping — Petje Af</title>
+<meta name="description" content="Modelformulier voor het herroepen van een aankoop bij Petje Af." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,700&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --bg:#f5ede0; --bg-2:#ede2cf; --cream:#faf3e6;
+    --ink:#2b1d10; --ink-2:#4a3520;
+    --accent:#7a3f17; --accent-2:#a85a25;
+    --gold:#d4a24a; --line:#d8c7a8;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    font-family:'Inter',system-ui,-apple-system,sans-serif;
+    background:var(--bg); color:var(--ink);
+    line-height:1.65; font-size:16px;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+  a, button{-webkit-tap-highlight-color:transparent; touch-action:manipulation}
+  /* Forceer input font-size ≥ 16px om iOS-zoom op focus te voorkomen */
+  input, textarea{font-size:16px !important}
+  @supports(padding: max(0px)) {
+    .topbar{ padding-left:max(1.4rem, env(safe-area-inset-left));
+             padding-right:max(1.4rem, env(safe-area-inset-right)); }
+  }
+  .wrap{max-width:720px; margin:0 auto; padding:2rem 1.4rem 4rem}
+  .topbar{
+    background:var(--ink); color:var(--cream);
+    padding:.9rem 1.4rem; display:flex; align-items:center; gap:.8rem;
+    position:sticky; top:0; z-index:10;
+  }
+  .topbar a{color:var(--gold); text-decoration:none; font-weight:600; font-size:.95rem}
+  .topbar a:hover{color:var(--cream)}
+  .topbar .brand{font-family:'Fraunces',serif; font-weight:700; font-size:1.15rem; margin-right:auto}
+  .topbar .brand-mark{
+    display:inline-grid; place-items:center; width:30px; height:30px;
+    background:var(--gold); color:var(--ink); border-radius:50%;
+    font-weight:800; font-size:.9rem; margin-right:.5rem;
+  }
+  h1{
+    font-family:'Fraunces',serif; font-weight:700; color:var(--accent);
+    font-size:2rem; line-height:1.2; margin:1.5rem 0 .3rem;
+  }
+  .subtitle{color:var(--ink-2); font-size:.95rem; margin:0 0 1.8rem}
+  .intro{
+    background:var(--cream); border-left:3px solid var(--accent);
+    padding:1rem 1.2rem; border-radius:0 10px 10px 0; margin:0 0 2rem;
+    font-size:.95rem;
+  }
+  .addr-block{
+    background:var(--cream); border:1px solid var(--accent);
+    border-radius:10px; padding:1rem 1.2rem; margin:1rem 0 2rem;
+  }
+  .addr-block strong{color:var(--accent)}
+  .addr-block .lbl{
+    display:block; font-size:.75rem; text-transform:uppercase;
+    letter-spacing:.08em; color:var(--ink-2); font-weight:600; margin-bottom:.4rem;
+  }
+  label{
+    display:block; font-weight:600; margin:1rem 0 .35rem; font-size:.92rem;
+    color:var(--ink);
+  }
+  input[type=text], input[type=date], textarea{
+    width:100%; padding:.7rem .85rem;
+    border:1px solid var(--line); border-radius:8px;
+    font-family:inherit; font-size:.98rem;
+    background:#fffdf8; color:var(--ink);
+  }
+  input:focus, textarea:focus{
+    outline:none; border-color:var(--accent);
+    box-shadow:0 0 0 3px rgba(122,63,23,.12);
+  }
+  textarea{resize:vertical; min-height:90px}
+  .row-2{display:grid; grid-template-columns:1fr 1fr; gap:1rem}
+  .iban-row{display:grid; grid-template-columns:auto 1fr; gap:.6rem; align-items:end}
+  .iban-row .prefix{
+    font-weight:700; padding:.7rem .9rem; background:var(--bg-2);
+    border:1px solid var(--line); border-radius:8px;
+  }
+  .actions{
+    display:flex; gap:.8rem; flex-wrap:wrap; margin-top:2rem;
+    padding-top:1.5rem; border-top:1px solid var(--line);
+  }
+  .btn{
+    display:inline-block; padding:.85rem 1.4rem; border-radius:999px;
+    text-decoration:none; font-weight:600; font-size:.95rem; cursor:pointer;
+    border:none; font-family:inherit;
+  }
+  .btn-primary{background:var(--accent); color:var(--cream)}
+  .btn-primary:hover{background:var(--accent-2)}
+  .btn-ghost{background:transparent; color:var(--accent); border:1.5px solid var(--accent)}
+  .btn-ghost:hover{background:var(--accent); color:var(--cream)}
+  .footer-note{
+    margin-top:2rem; padding-top:1.5rem; border-top:1px solid var(--line);
+    color:var(--ink-2); font-size:.88rem;
+  }
+  .footer-note a{color:var(--accent); font-weight:600}
+  @media (max-width:520px){
+    .wrap{padding:1.4rem 1rem 3rem}
+    h1{font-size:1.55rem}
+    .row-2{grid-template-columns:1fr}
+  }
+  @media print{
+    .topbar, .actions{display:none}
+    body{background:#fff; color:#000}
+    .wrap{max-width:none; padding:0}
+    h1{color:#000}
+    .intro, .addr-block{background:#fff; border:1px solid #888}
+    input, textarea{border:1px solid #888; background:#fff}
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <span class="brand"><span class="brand-mark">P</span>Petje Af</span>
+  <a href="index.html">← Terug naar de webshop</a>
+</div>
+
+<div class="wrap">
+  <h1>Modelformulier voor ontbinding / herroeping</h1>
+  <p class="subtitle">Petje Af — studentenbedrijf onder Stichting Jonge Honden</p>
+
+  <div class="intro">
+    Wil je je aankoop annuleren? Dit formulier alleen invullen en terugsturen als je de overeenkomst wilt ontbinden / herroepen. Vul je gegevens in, druk op <strong>"Print formulier"</strong> onderaan, of mail een ingevulde versie naar het contact-adres in de footer.
+  </div>
+
+  <div class="addr-block">
+    <span class="lbl">Aan</span>
+    <strong>Stichting Jonge Honden</strong><br/>
+    t.a.v. Studentenbedrijf <strong>Petje Af</strong><br/>
+    Kleiwerd 42<br/>
+    9746 CV Groningen
+  </div>
+
+  <p>
+    Ik deel u, het studentenbedrijf zoals hierboven vermeld, hierbij mede dat ik / wij onze overeenkomst betreffende de verkoop van de onderstaande producten wil(len) herroepen:
+  </p>
+
+  <form>
+    <label for="products">Welke producten?</label>
+    <textarea id="products" placeholder="Bijv. 1× Petje Af cap — Beige" rows="3"></textarea>
+
+    <div class="row-2">
+      <div>
+        <label for="ordered">Besteld op</label>
+        <input type="date" id="ordered" />
+      </div>
+      <div>
+        <label for="received">Ontvangen op</label>
+        <input type="date" id="received" />
+      </div>
+    </div>
+
+    <label for="name">Naam</label>
+    <input type="text" id="name" placeholder="Voor- en achternaam" autocomplete="name" />
+
+    <label for="address">Adres (straat, huisnr, postcode, plaats)</label>
+    <textarea id="address" rows="2" placeholder="Jouw retouradres" autocomplete="street-address"></textarea>
+
+    <label for="iban">IBAN voor terugbetaling</label>
+    <div class="iban-row">
+      <div class="prefix">NL</div>
+      <input type="text" id="iban" placeholder="00 BANK 0000 0000 00" maxlength="32" />
+    </div>
+
+    <label for="iban-name">Bankrekening op naam van</label>
+    <input type="text" id="iban-name" placeholder="Tenaamstelling rekening" />
+
+    <label for="signdate">Datum</label>
+    <input type="date" id="signdate" />
+
+    <div class="actions">
+      <button type="button" class="btn btn-primary" onclick="window.print()">🖨️ Print formulier</button>
+      <a href="index.html" class="btn btn-ghost">Terug naar webshop</a>
+    </div>
+  </form>
+
+  <div class="footer-note">
+    Stuur dit ingevulde formulier mee met je retourzending naar het adres hierboven, of mail het naar het contact-adres op <a href="index.html">petjeaf.nl</a>. Bekijk ook onze volledige <a href="algemene-voorwaarden.html">algemene voorwaarden</a> (artikel 6 t/m 10) voor de details rond herroeping.
+  </div>
+</div>
+
+</body>
+</html>
