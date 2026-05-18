@@ -1000,23 +1000,7 @@
       modus: cfg.PREORDER_MODE ? 'PRE-ORDER' : 'Reguliere bestelling',
     };
 
-    // 1) Stuur naar Formspree (zodat jij de bestelling per mail krijgt)
-    try {
-      await fetch(cfg.FORMSPREE_ENDPOINT, {
-        method: 'POST',
-        headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          ...orderData,
-          prijs_per_pet: '€' + cfg.PRICE_EUR,
-          subtotaal_euro: '€' + subtotaal,
-          korting_euro: korting ? '−€' + korting : '€0',
-          totaal_euro: '€' + totaal,
-          _subject: 'Nieuwe Petje Af bestelling — ' + orderData.naam,
-        }),
-      });
-    } catch (err) {
-      console.warn('Formspree melding mislukt (gaat door met betaling)', err);
-    }
+    
 
     // 2) Vraag Netlify Function om Mollie checkout aan te maken
     let checkoutUrl = null;
