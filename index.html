@@ -204,6 +204,32 @@
     font-weight:600;
   }
   .total-row .total{font-family:'Bebas Neue',Impact,sans-serif;font-size:1.7rem;color:var(--accent)}
+
+  /* Kortingscode UI */
+  .code-row{display:grid;grid-template-columns:1fr auto;gap:.5rem}
+  .code-row input{text-transform:uppercase;letter-spacing:.05em}
+  .btn-code{
+    padding:.75rem 1.1rem;border-radius:12px;border:1.5px solid var(--accent);
+    background:transparent;color:var(--accent);font-weight:700;cursor:pointer;
+    font-family:inherit;font-size:.92rem;white-space:nowrap;transition:all .15s ease;
+  }
+  .btn-code:hover{background:var(--accent);color:var(--cream)}
+  .btn-code:disabled{opacity:.5;cursor:not-allowed}
+  .code-feedback{font-size:.85rem;margin-top:.4rem;min-height:1.1em}
+  .code-feedback.ok{color:#1b5e20}
+  .code-feedback.err{color:#b71c1c}
+
+  /* Breakdown (subtotaal/korting boven totaal) */
+  .breakdown{
+    display:flex;flex-direction:column;gap:.35rem;
+    margin-top:1rem;padding:.7rem 1rem;
+    background:var(--bg-2);border-radius:12px 12px 0 0;
+    border-bottom:1px dashed var(--line);
+  }
+  .breakdown + .total-row{margin-top:0;border-radius:0 0 12px 12px}
+  .bd-line{display:flex;justify-content:space-between;font-size:.95rem;color:var(--ink-2)}
+  .bd-line.bd-discount{color:#1b5e20;font-weight:600}
+  .bd-line small{font-weight:500;opacity:.8;margin-left:.3em}
   .order-btn{width:100%;justify-content:center;margin-top:1rem;font-size:1.05rem}
   .form-note{font-size:.82rem;color:var(--ink-2);margin-top:.7rem;line-height:1.4}
   .success-msg{
@@ -566,6 +592,25 @@
             <label for="of-note">Opmerking (optioneel)</label>
             <textarea id="of-note" name="opmerking" rows="2" placeholder="Iets dat we moeten weten?"></textarea>
           </div>
+          <div>
+            <label for="of-code">Kortingscode (optioneel)</label>
+            <div class="code-row">
+              <input type="text" id="of-code" name="kortingscode" placeholder="Bijv. WELKOM10" autocomplete="off" autocapitalize="characters" />
+              <button type="button" class="btn-code" id="btn-apply-code">Toepassen</button>
+            </div>
+            <div id="code-feedback" class="code-feedback" aria-live="polite"></div>
+          </div>
+        </div>
+
+        <div class="breakdown" id="breakdown" hidden>
+          <div class="bd-line">
+            <span>Subtotaal</span>
+            <span>€<span id="bd-subtotal">35</span>,-</span>
+          </div>
+          <div class="bd-line bd-discount" id="bd-discount-row" hidden>
+            <span>Korting <small id="bd-code-label"></small></span>
+            <span>−€<span id="bd-discount">0</span>,-</span>
+          </div>
         </div>
 
         <div class="total-row">
@@ -658,7 +703,8 @@
       <div class="feature">
         <div class="icon">💶</div>
         <h3>Verzendkosten</h3>
-        <p><strong>€4,95</strong> per bestelling binnen Nederland. <strong>Gratis</strong> verzending vanaf 2 caps in één bestelling.</p>
+        <p><strong>Inbegrepen in de prijs.</strong> Wat je ziet is wat je betaalt — geen verrassingen.</p>
+        <p style="margin:.7rem 0 0;padding-top:.7rem;border-top:1px dashed var(--line);font-size:.92rem">🎁 <strong>Bonus:</strong> vanaf 2 caps krijg je een <strong>gratis Petje Af stickerpack</strong> in je pakket.</p>
       </div>
       <div class="feature">
         <div class="icon">⏱️</div>
@@ -807,6 +853,16 @@
 
     // Prijs in euro (geheel getal). Pas hier aan als je de prijs verandert.
     PRICE_EUR: 35,
+
+    // ====== KORTINGSCODES ======
+    // 'type' is 'fixed' (vast bedrag in euro) of 'percent' (percentage)
+    // BELANGRIJK: pas DEZELFDE codes ook aan in netlify/functions/create-payment.js
+    // (anders worden ze niet doorberekend op de Mollie betaling — server-side validatie)
+    KORTINGSCODES: {
+      'WELKOM10':  { type: 'fixed',   value: 10, label: '€10 welkomstkorting' },
+      'STUDENT5':  { type: 'fixed',   value: 5,  label: '€5 studentenkorting' },
+      'VRIEND15':  { type: 'percent', value: 15, label: '15% vriendenkorting' },
+    },
   };
 </script>
 
@@ -831,14 +887,85 @@
   const fe = document.getElementById('footer-email');
   if (fe && cfg.ORDER_EMAIL) fe.href = 'mailto:' + cfg.ORDER_EMAIL;
 
-  // Live total
+  // Live total + kortingscode logica
   const qty = document.getElementById('of-qty');
   const total = document.getElementById('totalPrice');
+  const codeInput = document.getElementById('of-code');
+  const codeBtn = document.getElementById('btn-apply-code');
+  const codeFeedback = document.getElementById('code-feedback');
+  const breakdown = document.getElementById('breakdown');
+  const bdSubtotal = document.getElementById('bd-subtotal');
+  const bdDiscountRow = document.getElementById('bd-discount-row');
+  const bdDiscount = document.getElementById('bd-discount');
+  const bdCodeLabel = document.getElementById('bd-code-label');
+
+  let activeCode = null; // bv. { code: 'WELKOM10', type: 'fixed', value: 10, label: '...' }
+
+  function calcDiscount(subtotal){
+    if (!activeCode) return 0;
+    if (activeCode.type === 'fixed') return Math.min(activeCode.value, subtotal);
+    if (activeCode.type === 'percent') return Math.round((subtotal * activeCode.value) / 100);
+    return 0;
+  }
+
   function recalc(){
     const n = Math.max(1, parseInt(qty.value || '1', 10));
-    total.textContent = (n * cfg.PRICE_EUR);
+    const subtotal = n * cfg.PRICE_EUR;
+    const discount = calcDiscount(subtotal);
+    const finalTotal = Math.max(0, subtotal - discount);
+
+    total.textContent = finalTotal;
+    bdSubtotal.textContent = subtotal;
+
+    if (activeCode && discount > 0){
+      breakdown.hidden = false;
+      bdDiscountRow.hidden = false;
+      bdDiscount.textContent = discount;
+      bdCodeLabel.textContent = '(' + activeCode.code + ')';
+    } else {
+      breakdown.hidden = true;
+      bdDiscountRow.hidden = true;
+    }
   }
   qty.addEventListener('input', recalc);
+
+  function applyCode(){
+    const raw = (codeInput.value || '').trim().toUpperCase();
+    if (!raw){
+      activeCode = null;
+      codeFeedback.textContent = '';
+      codeFeedback.className = 'code-feedback';
+      recalc();
+      return;
+    }
+    const def = cfg.KORTINGSCODES[raw];
+    if (!def){
+      activeCode = null;
+      codeFeedback.textContent = '✗ Onbekende kortingscode.';
+      codeFeedback.className = 'code-feedback err';
+      recalc();
+      return;
+    }
+    activeCode = { code: raw, ...def };
+    codeFeedback.textContent = '✓ ' + def.label + ' toegepast.';
+    codeFeedback.className = 'code-feedback ok';
+    codeInput.value = raw;
+    recalc();
+  }
+  codeBtn.addEventListener('click', applyCode);
+  codeInput.addEventListener('keydown', function(e){
+    if (e.key === 'Enter'){ e.preventDefault(); applyCode(); }
+  });
+  // Reset bij wijziging
+  codeInput.addEventListener('input', function(){
+    if (activeCode && codeInput.value.trim().toUpperCase() !== activeCode.code){
+      activeCode = null;
+      codeFeedback.textContent = '';
+      codeFeedback.className = 'code-feedback';
+      recalc();
+    }
+  });
+
   recalc();
 
   // Form submit
@@ -855,7 +982,9 @@
     submitBtn.disabled = true;
 
     const aantal = Math.max(1, parseInt(form.aantal.value, 10) || 1);
-    const totaal = aantal * cfg.PRICE_EUR;
+    const subtotaal = aantal * cfg.PRICE_EUR;
+    const korting = calcDiscount(subtotaal);
+    const totaal = Math.max(0, subtotaal - korting);
 
     const orderData = {
       naam: form.naam.value.trim(),
@@ -863,7 +992,10 @@
       adres: form.adres.value.trim(),
       aantal: aantal,
       opmerking: form.opmerking.value.trim(),
+      kortingscode: activeCode ? activeCode.code : '',
       prijs_per_pet: cfg.PRICE_EUR,
+      subtotaal: subtotaal,
+      korting: korting,
       totaal: totaal,
       modus: cfg.PREORDER_MODE ? 'PRE-ORDER' : 'Reguliere bestelling',
     };
@@ -876,6 +1008,8 @@
         body: JSON.stringify({
           ...orderData,
           prijs_per_pet: '€' + cfg.PRICE_EUR,
+          subtotaal_euro: '€' + subtotaal,
+          korting_euro: korting ? '−€' + korting : '€0',
           totaal_euro: '€' + totaal,
           _subject: 'Nieuwe Petje Af bestelling — ' + orderData.naam,
         }),
