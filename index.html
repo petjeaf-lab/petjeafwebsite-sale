@@ -438,7 +438,7 @@
         ode aan de mooiste avonden van je studietijd. Gemaakt door studenten, voor studenten.
       </p>
       <div class="hero-cta">
-        <a href="#bestel" class="btn btn-primary">Pre-order voor <span id="hero-price">€35</span> →</a>
+        <a href="#bestel" class="btn btn-primary">Pre-order voor <span id="hero-price">€20</span> →</a>
         <a href="#verhaal" class="btn btn-ghost">Lees ons verhaal</a>
       </div>
       <div class="meta-row">
@@ -457,7 +457,7 @@
           <span style="font-weight:400;font-size:.9rem;color:var(--ink-2)">assets/cap-front.jpg</span>
         </div>
       </div>
-      <div class="price-tag">€<span id="hero-tag-price">35</span></div>
+      <div class="price-tag">€<span id="hero-tag-price">20</span></div>
     </div>
   </div>
 </header>
@@ -567,7 +567,7 @@
         <span class="preorder-tag" id="status-tag">Pre-order</span>
         <h3 style="font-size:1.6rem;margin-top:.8rem">Petje Af — Beige</h3>
         <p style="margin:0;color:var(--ink-2);font-size:.95rem">Geborduurd · Verstelbaar · 100% katoen</p>
-        <div class="price">€<span id="form-price">35</span>,-<small id="delivery-line"> · levering eind juni 2026</small></div>
+        <div class="price">€<span id="form-price">20</span>,-<small id="delivery-line"> · levering eind juni 2026</small></div>
 
         <div class="form-row">
           <div>
@@ -595,7 +595,7 @@
           <div>
             <label for="of-code">Kortingscode (optioneel)</label>
             <div class="code-row">
-              <input type="text" id="of-code" name="kortingscode" placeholder="Bijv. WELKOM10" autocomplete="off" autocapitalize="characters" />
+              <input type="text" id="of-code" name="kortingscode" placeholder="Vul je code in" autocomplete="off" autocapitalize="characters" />
               <button type="button" class="btn-code" id="btn-apply-code">Toepassen</button>
             </div>
             <div id="code-feedback" class="code-feedback" aria-live="polite"></div>
@@ -605,7 +605,7 @@
         <div class="breakdown" id="breakdown" hidden>
           <div class="bd-line">
             <span>Subtotaal</span>
-            <span>€<span id="bd-subtotal">35</span>,-</span>
+            <span>€<span id="bd-subtotal">20</span>,-</span>
           </div>
           <div class="bd-line bd-discount" id="bd-discount-row" hidden>
             <span>Korting <small id="bd-code-label"></small></span>
@@ -615,7 +615,7 @@
 
         <div class="total-row">
           <span>Totaal</span>
-          <span class="total">€<span id="totalPrice">35</span>,-</span>
+          <span class="total">€<span id="totalPrice">20</span>,-</span>
         </div>
 
         <button type="submit" class="btn btn-primary order-btn" id="submitBtn">
@@ -852,15 +852,15 @@
     DELIVERY_ESTIMATE: "eind juni 2026",
 
     // Prijs in euro (geheel getal). Pas hier aan als je de prijs verandert.
-    PRICE_EUR: 35,
+    PRICE_EUR: 20,
 
     // ====== KORTINGSCODES ======
     // 'type' is 'fixed' (vast bedrag in euro) of 'percent' (percentage)
     // BELANGRIJK: pas DEZELFDE codes ook aan in netlify/functions/create-payment.js
     // (anders worden ze niet doorberekend op de Mollie betaling — server-side validatie)
     KORTINGSCODES: {
-      'WELKOM10':  { type: 'fixed',   value: 10, label: '€10 welkomstkorting' },
-      'STUDENT5':  { type: 'fixed',   value: 5,  label: '€5 studentenkorting' },
+      'WELKOM10':  { type: 'percent', value: 10, label: '10% welkomstkorting' },
+      'STUDENT5':  { type: 'percent', value: 5,  label: '5% studentenkorting' },
       'VRIEND15':  { type: 'percent', value: 15, label: '15% vriendenkorting' },
     },
   };
@@ -1000,7 +1000,23 @@
       modus: cfg.PREORDER_MODE ? 'PRE-ORDER' : 'Reguliere bestelling',
     };
 
-    
+    // 1) Stuur naar Formspree (zodat jij de bestelling per mail krijgt)
+    try {
+      await fetch(cfg.FORMSPREE_ENDPOINT, {
+        method: 'POST',
+        headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          ...orderData,
+          prijs_per_pet: '€' + cfg.PRICE_EUR,
+          subtotaal_euro: '€' + subtotaal,
+          korting_euro: korting ? '−€' + korting : '€0',
+          totaal_euro: '€' + totaal,
+          _subject: 'Nieuwe Petje Af bestelling — ' + orderData.naam,
+        }),
+      });
+    } catch (err) {
+      console.warn('Formspree melding mislukt (gaat door met betaling)', err);
+    }
 
     // 2) Vraag Netlify Function om Mollie checkout aan te maken
     let checkoutUrl = null;
