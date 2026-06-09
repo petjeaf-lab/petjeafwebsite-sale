@@ -18,13 +18,13 @@
 // iemand met dev-tools worden gewijzigd. Daarom recalculeren we hier
 // het totaal op basis van: aantal × prijs_per_pet − korting.
 const KORTINGSCODES = {
-  'WELKOM10':  { type: 'fixed',   value: 10, label: '€10 welkomstkorting' },
-  'STUDENT5':  { type: 'fixed',   value: 5,  label: '€5 studentenkorting' },
+  'WELKOM10':  { type: 'percent', value: 10, label: '10% welkomstkorting' },
+  'STUDENT5':  { type: 'percent', value: 5,  label: '5% studentenkorting' },
   'VRIEND15':  { type: 'percent', value: 15, label: '15% vriendenkorting' },
 };
 
 // Vaste prijs per cap in euro (geheel getal). Pas aan als je index.html prijs wijzigt.
-const PRICE_EUR = 35;
+const PRICE_EUR = 20;
 
 // Minimum totaalbedrag dat we accepteren (Mollie staat €0 niet toe).
 const MIN_TOTAL_EUR = 1;
