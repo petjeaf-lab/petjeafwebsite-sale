@@ -848,6 +848,9 @@
     // Pre-order modus aan/uit. true = "Pre-order", false = "Bestel nu" (reguliere verkoop)
     PREORDER_MODE: true,
 
+    // Uitverkocht: zet op true als alle petten weg zijn en bestellen niet meer mogelijk is
+    SOLD_OUT: true,
+
     // Tekst voor levertijd (gebruikt in formulier)
     DELIVERY_ESTIMATE: "eind juni 2026",
 
@@ -887,7 +890,56 @@
   const fe = document.getElementById('footer-email');
   if (fe && cfg.ORDER_EMAIL) fe.href = 'mailto:' + cfg.ORDER_EMAIL;
 
-  // Live total + kortingscode logica
+  // ====== UITVERKOCHT ======
+  if (cfg.SOLD_OUT) {
+    document.getElementById('hero-badge-text').textContent = 'Uitverkocht · Eerste oplage · 40 stuks';
+    document.getElementById('prod-eyebrow').textContent = 'Uitverkocht · Eerste oplage · 40 stuks';
+
+    // Hero CTA knop uitschakelen
+    const heroCta = document.querySelector('.hero-cta a.btn-primary');
+    if (heroCta) {
+      heroCta.textContent = '🚫 Uitverkocht';
+      heroCta.removeAttribute('href');
+      heroCta.style.cssText += ';opacity:.55;cursor:not-allowed;pointer-events:none';
+    }
+
+    // Nav CTA uitschakelen
+    const navCta = document.querySelector('nav .cta');
+    if (navCta) {
+      navCta.textContent = 'Uitverkocht';
+      navCta.removeAttribute('href');
+      navCta.style.cssText += ';background:var(--ink-2);opacity:.7;pointer-events:none';
+    }
+
+    // Bestelformulier vervangen door uitverkocht-melding
+    const orderForm = document.getElementById('orderForm');
+    if (orderForm) {
+      orderForm.outerHTML = `
+        <div class="order-card" style="text-align:center">
+          <span class="preorder-tag" style="background:#c0392b;color:#fff">Uitverkocht</span>
+          <div style="font-size:2.6rem;margin:1.2rem 0 .6rem">😔</div>
+          <h3 style="font-size:1.8rem;margin-bottom:.5rem">Uitverkocht</h3>
+          <p style="color:var(--ink-2);margin-bottom:1.4rem;line-height:1.6">
+            De eerste oplage van 40 caps is helaas volledig uitverkocht.<br/>
+            Meld je aan om als eerste te horen wanneer drop 2 beschikbaar is.
+          </p>
+          <a href="mailto:support@petjeafshop.nl?subject=Aanmelden%20tweede%20drop%20Petje%20Af" class="btn btn-primary" style="display:inline-flex;justify-content:center;width:100%">Meld me aan voor drop 2 →</a>
+          <p class="form-note" style="margin-top:1rem">Je e-mailadres wordt alleen gebruikt om je op de hoogte te stellen van de volgende drop.</p>
+        </div>
+      `;
+    }
+
+    // Smooth scroll blijft werken
+    document.querySelectorAll('a[href^="#"]').forEach(a => {
+      a.addEventListener('click', function(e){
+        const id = this.getAttribute('href').slice(1);
+        const el = document.getElementById(id);
+        if (el) { e.preventDefault(); el.scrollIntoView({behavior:'smooth', block:'start'}); }
+      });
+    });
+    return;
+  }
+  // ====== EINDE UITVERKOCHT ======
   const qty = document.getElementById('of-qty');
   const total = document.getElementById('totalPrice');
   const codeInput = document.getElementById('of-code');
